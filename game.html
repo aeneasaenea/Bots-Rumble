@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2299.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #000000; -webkit-text-stroke: #9ba2b1; background-color: #ffffff}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Menlo; color: #000000; -webkit-text-stroke: #9ba2b1; background-color: #ffffff; min-height: 16.0px}
+    span.s1 {font-kerning: none; text-shadow: 0.0px 1.0px 0.0px rgba(255, 255, 255, 0)}
+    span.Apple-tab-span {white-space:pre}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;Bots Autootjes Game&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>canvas {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>border: solid black;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#score {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>color: white;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-size: xx-large;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-left: auto;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-right: auto;<span class="Apple-converted-space">   </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>}<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt; <span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;body onload = "startGame()"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;div id="score"&gt;&lt;/div&gt;<span class="Apple-converted-space"> </span></span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">let myScore = 0;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">const canvas = document.getElementById('gameCanvas');</span></p>
+<p class="p1"><span class="s1">const ctx = canvas.getContext('2d');</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">let mouseX;</span></p>
+<p class="p1"><span class="s1">let mouseY;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function handleMouseMove(event) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>mouseX = event.clientX - rect.left - player.width/2 ;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>mouseY = event.clientY - rect.top - player.height/2 ; //Zet midden op cursor</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">canvas.addEventListener('mousemove', handleMouseMove);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">class BotAuto {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>constructor(x, y,speedX,speedY,size,color){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>this.x=x || Math.random()*canvas.width;;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>this.y=y || Math.random()*canvas.height;;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>this.speedX=speedX || (Math.random()-0.5)*3 *2; //Snelheid tussen -3 en +3 pixels per frame in x richting</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>this.speedY=speedY || (Math.random()-0.5)*3 *2; //Snelheid tussen -3 en +3 pixels per frame in y richting</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>this.size=size||20;//grootte van botauto's is altijd gelijk aan size of standaardwaarde van 20 als geen parameter werd doorgegeven</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>this.color=color||'red';//kleur van botauto's is altijd gelijk aan color of standaardwaarde van rood als geen parameter werd doorgegeven</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span>draw() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>ctx.fillStyle = this.color;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>ctx.fillRect(this.x, this.y, this.size, this.size);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span>update(){</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>//botsing met andere bots-autootjes checken en snelheid omkeren indien nodig</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>for(let i=0;i&lt;botAutos.length;i++){</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if(this===botAutos[i]){continue;} //zichzelf niet checken</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let dx =this.x-botAutos[i].x;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let dy=this.y-botAutos[i].y;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let distance=Math.sqrt(dx*dx+dy*dy); <span class="Apple-converted-space">           </span></span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if(distance&lt;(this.size/2 + botAutos[i].size/2)){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>//botsing!</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let angle=Math.atan2(dy,dx);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let targetX=this.speedX*Math.cos(angle)+this.speedY*Math.sin(angle);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let targetY=this.speedY*Math.cos(angle)-this.speedX*Math.sin(angle);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const speedMagnitude = Math.sqrt(targetX * targetX + targetY * targetY) || 1;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>targetX /= speedMagnitude;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>targetY /= speedMagnitude;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>this.speedX=targetX*5;//omdraaien en vertragen tot 5 pixels per frame in x richting</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>this.speedY=targetY*5;//omdraaien en vertragen tot 5 pixels per frame in y richting</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">       </span>if (this.x &lt; 0 || (this.x+this.width)&gt;canvas.width) { <span class="Apple-converted-space">         <span class="Apple-tab-span">	</span></span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span> <span class="Apple-converted-space">  </span>this.speedX=-this.speedX ;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span> <span class="Apple-converted-space">  </span>}<span class="Apple-converted-space"> </span></span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span> <span class="Apple-converted-space">  </span>if (this.y &lt; 0 ||(this.y+this.height)&gt;canvas.height) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span> <span class="Apple-converted-space">  </span>this.speedY=-this.speedY;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span> <span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">       </span>//bewegen</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>this.x+=this.speedX;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>this.y+=this.speedY;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">const botAutos = [];//lijst van alle bots-autootjes in de game</span></p>
+<p class="p1"><span class="s1">botAutos.push(new BotAuto(50, 50,2,-3,30,'blue'));//toevoegen van een blauwe bots-auto bij opstarten</span></p>
+<p class="p1"><span class="s1">botAutos.push(new BotAuto(200, 100));//toevoegen van een rode bots-auto bij opstarten</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">let player={x:0,y:0,width:20,height:20,color:'green',speedX:5,speedY:-3};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function drawPlayer() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span>ctx.fillStyle = player.color;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span>ctx.fillRect(player.x, player.y, player.width,player. height);</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function updatePlayer(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span>player.x=mouseX;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span>player.y=mouseY;<span class="Apple-tab-span">	</span></span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">let rect = canvas.getBoundingClientRect();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function startGame() { <span class="Apple-converted-space">   </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">   </span>setInterval(updateGameAreaAndScoreboard , 20); <span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1">}<span class="Apple-converted-space"> </span></span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">function clearCanvas(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.clearRect(0,0,canvas.width , canvas.height );</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">//main game loop functie die meermaals per seconde wordt aangeroepen om spel te updaten en te tonen aan gebruiker</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>function updateGameAreaAndScoreboard(){<span class="Apple-converted-space">   </span></span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">     </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>//eerst alles uitwissen wat er momenteel getekend staat op het doek (deze frame)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>clearCanvas();</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">     </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>//bots-autotjes bewegingen berekenen en tekenen voor deze frame:</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>for(let i=0;i&lt;botAutos.length;i++){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>botAutos[i].update(); <span class="Apple-converted-space">         </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>botAutos[i].draw(); <span class="Apple-converted-space">         </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} <span class="Apple-converted-space">     </span></span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-converted-space">  </span>drawPlayer();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-converted-space">  </span>updatePlayer();</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">     </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">     </span>//checken voor botsingen tussen groene speler en rode bots-auto's</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>for(let i=0;i&lt;botAutos.length;i++){</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">          </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let dx =player.x-botAutos[i].x;<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let dy=player.y-botAutos[i].y;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let distance=Math.sqrt(dx*dx+dy*dy); <span class="Apple-converted-space">           </span></span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if(distance&lt;(player.width/2 + botAutos[i].size/2)){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>//botsing!</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>myScore++;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>botAutos.splice(i,1);//verwijder de geraakte rode bots-auto uit de lijst met bots-autotjes</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>botAutos.push(new BotAuto());//voeg een nieuwe willekeurige rode bots-auto toe aan het spel</span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span><span class="Apple-tab-span">	</span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>} <span class="Apple-converted-space"> </span></span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-tab-span">	</span><span class="Apple-converted-space">  </span>document.getElementById("score").innerHTML ="Score: " + myScore ;//updaten van scoreboard</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">     </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space"> </span>}</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;canvas id="gameCanvas" width="400" height="400"&gt;&lt;/canvas&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
