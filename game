@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bots Autootjes Game</title>
+  <style>
+    canvas {
+      border: solid black;
+    }
+    
+    #score {
+        color: white;
+        font-size: xx-large;
+        margin-left: auto;
+        margin-right: auto;   
+     } 
+  </style>  
+</head>
+
+<body onload = "startGame()">
+<div id="score"></div> 
+
+<script>
+
+let myScore = 0;
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+let mouseX;
+let mouseY;
+
+function handleMouseMove(event) {
+    mouseX = event.clientX - rect.left - player.width/2 ;
+    mouseY = event.clientY - rect.top - player.height/2 ; //Zet midden op cursor
+}
+
+canvas.addEventListener('mousemove', handleMouseMove);
+
+class BotAuto {
+    constructor(x, y,speedX,speedY,size,color){
+        this.x=x || Math.random()*canvas.width;;
+        this.y=y || Math.random()*canvas.height;;
+        this.speedX=speedX || (Math.random()-0.5)*3 *2; //Snelheid tussen -3 en +3 pixels per frame in x richting
+        this.speedY=speedY || (Math.random()-0.5)*3 *2; //Snelheid tussen -3 en +3 pixels per frame in y richting
+		this.size=size||20;//grootte van botauto's is altijd gelijk aan size of standaardwaarde van 20 als geen parameter werd doorgegeven
+        this.color=color||'red';//kleur van botauto's is altijd gelijk aan color of standaardwaarde van rood als geen parameter werd doorgegeven
+    }
+
+	draw() {
+		ctx.fillStyle = this.color;
+		ctx.fillRect(this.x, this.y, this.size, this.size);
+	}
+
+	update(){
+        
+        //botsing met andere bots-autootjes checken en snelheid omkeren indien nodig
+        for(let i=0;i<botAutos.length;i++){
+            
+            if(this===botAutos[i]){continue;} //zichzelf niet checken
+            
+            let dx =this.x-botAutos[i].x; 
+            let dy=this.y-botAutos[i].y;
+            
+            let distance=Math.sqrt(dx*dx+dy*dy);            
+            
+            if(distance<(this.size/2 + botAutos[i].size/2)){
+                //botsing!
+                let angle=Math.atan2(dy,dx);
+                
+                let targetX=this.speedX*Math.cos(angle)+this.speedY*Math.sin(angle);
+                let targetY=this.speedY*Math.cos(angle)-this.speedX*Math.sin(angle);
+
+                const speedMagnitude = Math.sqrt(targetX * targetX + targetY * targetY) || 1;
+
+				targetX /= speedMagnitude;
+				targetY /= speedMagnitude;
+
+				this.speedX=targetX*5;//omdraaien en vertragen tot 5 pixels per frame in x richting
+				this.speedY=targetY*5;//omdraaien en vertragen tot 5 pixels per frame in y richting
+
+			}
+			
+        }
+        
+        
+       if (this.x < 0 || (this.x+this.width)>canvas.width) {          	
+		   this.speedX=-this.speedX ;
+	   } 
+        
+	   if (this.y < 0 ||(this.y+this.height)>canvas.height) {
+		   this.speedY=-this.speedY;
+	   }
+        
+       //bewegen
+		this.x+=this.speedX; 
+		this.y+=this.speedY;
+
+    }
+
+}
+
+const botAutos = [];//lijst van alle bots-autootjes in de game
+botAutos.push(new BotAuto(50, 50,2,-3,30,'blue'));//toevoegen van een blauwe bots-auto bij opstarten
+botAutos.push(new BotAuto(200, 100));//toevoegen van een rode bots-auto bij opstarten
+
+let player={x:0,y:0,width:20,height:20,color:'green',speedX:5,speedY:-3};
+
+function drawPlayer() {
+	ctx.fillStyle = player.color;
+	ctx.fillRect(player.x, player.y, player.width,player. height);
+}
+
+function updatePlayer(){
+	player.x=mouseX;
+	player.y=mouseY;	
+}
+
+
+let rect = canvas.getBoundingClientRect();
+
+function startGame() {    
+   setInterval(updateGameAreaAndScoreboard , 20);  
+} 
+
+function clearCanvas(){
+    ctx.clearRect(0,0,canvas.width , canvas.height );
+}
+
+//main game loop functie die meermaals per seconde wordt aangeroepen om spel te updaten en te tonen aan gebruiker
+ function updateGameAreaAndScoreboard(){   
+     
+     //eerst alles uitwissen wat er momenteel getekend staat op het doek (deze frame)
+     clearCanvas();
+     
+      //bots-autotjes bewegingen berekenen en tekenen voor deze frame:
+      for(let i=0;i<botAutos.length;i++){
+          botAutos[i].update();          
+          botAutos[i].draw();          
+      }      
+      
+	  drawPlayer();
+	  updatePlayer();
+     
+     //checken voor botsingen tussen groene speler en rode bots-auto's
+      for(let i=0;i<botAutos.length;i++){
+          
+            let dx =player.x-botAutos[i].x; 
+            let dy=player.y-botAutos[i].y;
+            
+            let distance=Math.sqrt(dx*dx+dy*dy);            
+            
+            if(distance<(player.width/2 + botAutos[i].size/2)){
+                //botsing!
+                myScore++;
+                
+                botAutos.splice(i,1);//verwijder de geraakte rode bots-auto uit de lijst met bots-autotjes
+                
+				botAutos.push(new BotAuto());//voeg een nieuwe willekeurige rode bots-auto toe aan het spel
+			}
+			
+        }  
+        
+	  document.getElementById("score").innerHTML ="Score: " + myScore ;//updaten van scoreboard
+     
+ }
+</script>
+<canvas id="gameCanvas" width="400" height="400"></canvas>
+
+</body>
+
+</html>
